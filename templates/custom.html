@@ -1,0 +1,127 @@
+<style type="text/css">
+	.container{
+		border-color: gray;
+		width: 600;
+        table-layout: fixed;
+        margin-left: auto;
+        margin-right: auto;
+	}
+	#div{
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<!DOCTYPE html>
+<html>
+	<body style="background-color: #272727">
+		<br>
+		<br>
+		<h1 align="center", style="color: #FFFFFF">Custom Sudoku Board</h1>
+		<br>
+		<div>
+			<table class="container", border= "1", id="sudoku">
+	            <thead>
+	                <tr style="text-align: center"></tr>
+	            </thead>
+	        </table>
+    	</div>
+    	<br>
+	    <div id="div">
+			<button type="submit", id="solve">Solve</button>
+			<button type="submit", id="new">Reset</button>
+    	</div>     		
+	</body>
+</html>
+
+<script src="/static/js/sudokuboard.js"></script>
+<script type="text/javascript">
+	let board = document.getElementById("sudoku");
+	let myBoard = new Board();
+	let customArray = [];
+
+    for (let i = 0; i < 9; i++){
+			let newRow = sudoku.insertRow(-1); 
+
+    	for (let j = 0; j < 9; j++) {
+
+            let newCell = newRow.insertCell(0);
+            newCell.innerHTML = " ";           
+            newCell.style.textAlign = "center";
+            newCell.style.color = "white";
+            newCell.setAttribute("height", 60);
+            newCell.setAttribute("id", i + "," + Math.abs(j - 8));
+            newCell.setAttribute("contenteditable", "true");
+            newCell.setAttribute("onkeydown", "testCharacter(event)");
+            newCell.setAttribute("onkeyup", "testCharacter(event)");
+
+            if (j == 2 || j == 5){
+				newCell.style.borderLeft = "thin solid white";				
+			}
+			if (i == 2 || i == 5){
+				newCell.style.borderBottom = "thin solid white";
+			}
+            if (j == 3 || j == 6){
+                newCell.style.borderRight= "thin solid white";              
+            }
+            if (i == 3 || i == 6){
+                newCell.style.borderTop = "thin solid white";
+            }
+        }
+    }
+
+	document.getElementById("solve").addEventListener("click", () => {
+		let nums = [1,2,3,4,5,6,7,8,9];
+        for (let i = 0; i < 9; i++){
+            for (let j = 0; j < 9; j++) {
+            	if(document.getElementById(i + "," + j).innerHTML == " " || !nums.includes(parseInt(document.getElementById(i + "," + j).innerHTML))){
+            		customArray.push(" ");
+            	}
+                else{
+                	customArray.push(parseInt(document.getElementById(i + "," + j).innerHTML));
+            	}
+            }
+        }
+
+        myBoard.customFill(customArray);
+        if(myBoard.solve()){
+        	myBoard.solve();
+	        let solutionArray = myBoard.getTableArr();
+	        let count = 0;
+	        for (let i = 0; i < 9; i++){
+	            for (let j = 0; j < 9; j++) {
+	                document.getElementById(i + "," + j).innerHTML = solutionArray[count];
+	                count++;
+	            }
+	        }        	
+        }
+        else{
+        	for (let i = 0; i < 9; i++){
+	            for (let j = 0; j < 9; j++) {
+	                document.getElementById(i + "," + j).innerHTML = customArray[count];
+	                count++;
+	            }
+	        }  
+        }
+
+    });
+
+	function testCharacter(event) {
+		let notValid = false;
+		let keyPressed = event.key;
+		let keys = ['1','2','3','4','5','6','7','8','9'];
+		let nums = [1,2,3,4,5,6,7,8,9];
+
+		if(!keys.includes(keyPressed)){
+			notValid = true;
+		}
+		if(notValid || !nums.includes(parseInt(event.target.innerHTML))){
+			event.target.innerHTML = " ";
+		}
+	}
+
+	document.getElementById("new").addEventListener("click", () => {
+        window.location = "/custom";
+    });
+</script>

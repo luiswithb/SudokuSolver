@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<body style="background-color: #272727">
+		<div>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<h1 align="center", style="color: #FFFFFF", style="font-size: 128pt">Sudoku Board Solver</h2>
+			<br>
+			<div style="margin: 0 auto; width: 656px; text-align: center;">
+	    		<button id="random">Generate a random board</button>
+	    		<button id="custom">Enter your own sudoku board</button>
+	   		</div>			
+		</div>
+	</body>
+</html>
+
+<script type="text/javascript">
+	document.getElementById("random").addEventListener("click", () => {
+		window.location = "/random"
+    });
+
+	document.getElementById("custom").addEventListener("click", () => {
+		window.location = "/custom"
+    });
+</script>
